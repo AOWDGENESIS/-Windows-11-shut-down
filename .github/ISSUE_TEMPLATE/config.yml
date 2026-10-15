@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Anleitung lesen
+    url: https://github.com/AOWDGENESIS/-Windows-11-shut-down/blob/main/README.md
+    about: Schnellstart, Aufräum-Liste, Problembehandlung und Deinstallation
+  - name: Fragen zu Windows-Aufgabenplanung
+    url: https://learn.microsoft.com/windows/win32/taskschd/task-scheduler-start-page
+    about: Microsoft-Dokumentation zur Aufgabenplanung (Kontext zur geplanten Aufgabe)
