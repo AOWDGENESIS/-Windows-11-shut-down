@@ -1,0 +1,148 @@
+﻿============================================================
+  WINDOWS 11 - HERUNTERFAHREN MIT AUFRAEUMEN
+  Desktop-Verknuepfung + fertiges Power-Icon
+============================================================
+
+WAS PASSIERT BEIM KLICK AUF DAS DESKTOP-ICON?
+
+  Windows raeumt AUTOMATISCH alle Temp- und Cache-Ordner auf:
+
+    - %TEMP% (angemeldeter Benutzer)
+    - Temp ALLER Benutzerprofile
+    - C:\Windows\Temp
+    - Internetcache (INetCache) aller Profile
+    - Windows-Fehlerberichte (WER)
+    - Absturz-Abbilder (CrashDumps)
+    - Windows-Update-Downloads
+    - Fehlerberichte/Crashdumps (systemweit)
+
+  Das laeuft mit Administratorrechten - OHNE dass du etwas
+  bestaetigen musst. Dafuer richtet die Installation einmalig
+  eine geplante Windows-Aufgabe ein ("Windows11-Herunterfahren").
+
+  Dateien, die gerade in Benutzung sind, werden uebersprungen.
+  Nicht geleert wird absichtlich: Prefetch (beschleunigt den
+  Start) und der Papierkorb (dafuer gibt es einen Schalter).
+
+  Danach faehrt Windows sofort und sauber herunter:
+  keine Rueckfrage, kein Zwangs-Beenden von Programmen.
+
+SO GEHT ES (2 Schritte):
+
+  1. Diesen ganzen Ordner entpacken (Rechtsklick auf die ZIP
+     -> "Alle extrahieren..."), am besten NICHT direkt aus der
+     ZIP heraus starten.
+
+  2. "Installieren.cmd" doppelklicken.
+     WICHTIG: Dabei erscheint EINMAL der Windows-UAC-Dialog
+     ("Moechten Sie zulassen, dass..."). Bitte mit "Ja"
+     bestaetigen - damit wird das automatische Aufraeumen mit
+     Administratorrechten eingerichtet. Danach kommt keine
+     Abfrage mehr.
+     Auf dem Desktop liegt danach die Verknuepfung
+     "Herunterfahren" mit dem blauen Power-Icon.
+
+     Falls Windows fragt ("Diese Datei stammt von einem anderen
+     Computer"): Rechtsklick auf Installieren.cmd -> Eigenschaften
+     -> unten "Zulassen" ankreuzen -> OK, dann erneut starten.
+     (Oder: PowerShell oeffnen und im Ordner ausfuehren:
+      Get-ChildItem | Unblock-File )
+
+TIPP ZUM AUSPROBIEREN:
+
+  Erst "Herunterfahren-30-Sekunden.cmd" testen - die raeumt genauso
+  auf, wartet aber 30 Sekunden. Abbrechen: Fenster schliessen.
+  Erst wenn das passt, das Desktop-Icon benutzen.
+
+VOR DEM HERUNTERFAHREN:
+
+  Bitte Dokumente speichern. Es wird nichts erzwungen - Programme
+  mit ungespeicherten Daten melden sich selbst bzw. Windows fragt
+  nach. Waehrend ein Installer oder Windows-Update laeuft, bitte
+  nicht aufraeumen lassen.
+
+DATEIEN IN DIESEM ORDNER:
+
+  Installieren.cmd                 Ein-Klick-Installation (Icon ist darin eingebettet)
+  Herunterfahren.cmd               Haupt-Skript: Temp raeumen + sofort herunterfahren
+  Herunterfahren-30-Sekunden.cmd   gleiches Aufraeumen, 30 s Vorlauf, abbrechbar
+  Abbrechen.cmd                    bricht ein zeitgesteuertes Herunterfahren ab
+  Aufraeumen.cmd                   wird automatisch mit Adminrechten gestartet
+  Aufgabe-anlegen.cmd              richtet die geplante Aufgabe ein/repariert sie
+  Deinstallieren.cmd               kompletter Rueckbau (Aufgabe + Verknuepfungen + Ordner)
+  Desktop-aufraeumen.cmd           entfernt alle Desktop-Verknuepfungen AUSSER
+                                   "Herunterfahren" (mit Sicherung!)
+  Desktop-Wiederherstellen.cmd     holt entfernte Verknuepfungen zurueck
+  Desktop-Verknuepfung-anlegen.cmd legt die Desktop-Verknuepfung neu an (Reparatur)
+  Icon-aktualisieren.cmd            zeigt das Icon neu an (falls Windows das alte zeichnet)
+  herunterfahren.ico               fertiges Icon (16-256 px)
+  Icon-Vorschau.png                Vorschau des Icons
+  Icon-Design.png                  Design-Uebersicht der Kombination
+  icon-quelle.png                  Design-Quelle, falls du es neu bauen willst
+  ANLEITUNG.md                     ausfuehrliche Anleitung + Einstellungen
+
+PROBLEM: KEINE VERKNUEPFUNG AUF DEM DESKTOP?
+
+  Dann wurde sie in einem anderen Desktop-Ordner angelegt als
+  dem, den Windows gerade anzeigt (kommt z. B. bei OneDrive-
+  Umleitung vor). Loesung:
+
+  "Desktop-Verknuepfung-anlegen.cmd" doppelklicken.
+  Sie prueft ALLE Desktop-Ordner, die Windows kennt, legt die
+  Verknuepfung in jedem an und zeigt genau an, wo sie gelandet
+  ist. Danach zur Sicherheit auf dem Desktop F5 druecken.
+
+WAS IST DIE "GEPLANTE AUFGABE"?
+
+  Eine Aufgabe in der Windows-Aufgabenplanung, die den
+  Programmordner-Inhalt "Aufraeumen.cmd" mit hoechsten Rechten
+  startet. So funktioniert das Aufraeumen ohne UAC-Dialog beim
+  taeglichen Klick. Ansehen/aendern kann man sie unter
+  Windowstaste -> "Aufgabenplanung" -> Aufgabenplanungsbibliothek.
+  Entfernt wird sie automatisch vom Deinstallierer - oder
+  manuell mit: schtasks /delete /tn Windows11-Herunterfahren /f
+
+DESKTOP AUFRAEUMEN (nur "Herunterfahren" behalten):
+
+  "Desktop-aufraeumen.cmd" doppelklicken. Es zeigt alle
+  Verknuepfungen auf dem Desktop, behaelt nur "Herunterfahren"
+  und bietet an:
+
+    [V]erschieben  - in den Sicherungsordner (empfohlen)
+    [L]oeschen     - endgueltig
+    [N]ein         - nichts tun
+
+  Sicherung: %USERPROFILE%\Desktop-Sicherung\DATUM
+  Zurueckholen: "Desktop-Wiederherstellen.cmd".
+
+  Es werden NUR Verknuepfungen (*.lnk / *.url) verschoben.
+  Dokumente, Ordner und eigene Dateien bleiben unangetastet.
+
+  Optional fragt das Skript am Ende, ob auch die Windows-
+  Systemsymbole (Papierkorb, Dieser PC, Netzwerk ...)
+  ausgeblendet werden sollen.
+
+DEINSTALLIEREN (kompletter Rueckbau):
+
+  "Deinstallieren.cmd" doppelklicken und mit [J] bestaetigen.
+  Entfernt alles:
+    [1/5] Verknuepfungen auf Desktop, angeheftete Taskleiste,
+          Startmenue und Temp-Reste
+    [2/5] Programmordner %LOCALAPPDATA%\Herunterfahren
+    [3/5] Temp-Reste des Pakets
+    [4/5] Windows-Icon- und Thumbnail-Cache
+    [5/5] Explorer-Neustart (Anzeige frisch aufgebaut)
+
+  Danach ist der Rechner wieder im Urzustand.
+
+KOMPLETTER NEUAUFBAU IN 2 SCHRITTEN:
+
+  1. "Deinstallieren.cmd" doppelklicken -> [J]
+     (entfernt auch die geplante Aufgabe - ggf. mit kurzer UAC-Abfrage)
+  2. "Installieren.cmd" doppelklicken (-> einmal UAC bestaetigen)
+
+  Damit sind alle alten Reste weg und die Verknuepfung wird mit
+  frischem Icon-Cache neu angelegt.
+
+  (Es wird nichts in der Registry geaendert - deshalb genuegt
+  dieses eine Skript zum sauberen Entfernen.)
