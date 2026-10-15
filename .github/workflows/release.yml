@@ -1,0 +1,51 @@
+name: Release
+
+# Wird ausgelöst, wenn ein Tag wie v1.0.0 gepusht wird:
+#   git tag v1.0.0
+#   git push origin v1.0.0
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write   # nötig, um den Release samt Datei anzulegen
+
+jobs:
+  release:
+    name: ZIP bauen und Release veröffentlichen
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Pillow installieren
+        run: python -m pip install --quiet pillow
+
+      - name: Paket prüfen
+        run: python tools/validate.py
+
+      - name: ZIP bauen
+        run: bash tools/build-release.sh "${{ github.ref_name }}"
+
+      - name: Release veröffentlichen
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Windows 11 – Sauberes Herunterfahren ${{ github.ref_name }}"
+          files: release/*.zip
+          generate_release_notes: true
+          body: |
+            **Ein Klick:** Temp- und Cache-Ordner werden aufgeräumt (inkl. `C:\Windows\Temp`
+            und der Temp-Ordner aller Benutzer, automatisch mit Administratorrechten) und
+            Windows fährt sauber herunter – ohne Zwangs-Beenden von Programmen.
+
+            ### Installation
+            1. ZIP herunterladen und entpacken
+            2. `Installieren.cmd` doppelklicken (einmalig UAC bestätigen)
+            3. Auf dem Desktop liegt „Herunterfahren“ mit Power-Icon
+
+            Details, Deinstallation und Problembehandlung: siehe `README.md` im Repository
+            bzw. `ANLEITUNG.md` im ZIP.
