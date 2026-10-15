@@ -1,0 +1,12 @@
+# Schutz der Dateiformate: keine stillen Zeilenenden-Umwandlungen
+*.cmd binary
+LIESMICH-ZUERST.txt binary
+*.ico binary
+*.png binary
+*.zip binary
+
+# Textdateien bewusst festlegen
+*.md text eol=lf
+*.yml text eol=lf
+*.py text eol=lf
+*.sh text eol=lf
