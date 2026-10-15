@@ -1,0 +1,71 @@
+name: Fehler melden
+description: Etwas funktioniert nicht wie erwartet
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke für die Meldung! Bitte vorher `Herunterfahren-30-Sekunden.cmd` aus dem
+        Programmordner testen – damit lässt sich der Ablauf gefahrlos ansehen.
+
+  - type: input
+    id: version
+    attributes:
+      label: Version des Pakets
+      description: Steht im Dateinamen des ZIPs oder in ANLEITUNG.md
+      placeholder: "v1.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: windows
+    attributes:
+      label: Windows-Build
+      description: Windowstaste + R → `winver` → Version und Build
+      placeholder: "Windows 11 24H2 (Build 26100.xxxx)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: bereich
+    attributes:
+      label: Wo hakt es?
+      options:
+        - Installation (Installieren.cmd)
+        - Desktop-Verknüpfung fehlt
+        - Icon wird nicht angezeigt
+        - Aufräumen läuft nicht vollständig
+        - Geplante Aufgabe fehlt / Fehler beim Herunterfahren
+        - Deinstallation
+        - Desktop-aufraeumen / Wiederherstellen
+        - Sonstiges
+    validations:
+      required: true
+
+  - type: textarea
+    id: beschreibung
+    attributes:
+      label: Was passiert?
+      description: Was hast du gemacht, was ist passiert, was hattest du erwartet?
+    validations:
+      required: true
+
+  - type: textarea
+    id: ausgabe
+    attributes:
+      label: Ausgabe des Skripts
+      description: Text aus dem Fenster hier einfügen (am besten vollständig).
+      render: text
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Bitte prüfen
+      options:
+        - label: Ich habe die Problembehandlung im README gelesen
+          required: true
+        - label: Ich verwende Windows 11 (kein Windows 10 / Server)
+          required: false
