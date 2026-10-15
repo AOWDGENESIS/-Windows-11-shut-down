@@ -1,4 +1,5 @@
 # Werkzeuge und Zwischendateien
+/*.zip
 release/*.zip
 *.tmp
 *.bak
