@@ -1,0 +1,20 @@
+# Werkzeuge und Zwischendateien
+release/*.zip
+*.tmp
+*.bak
+~$*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+desktop.ini
+IconCache.db
+*.lnk
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
